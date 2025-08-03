@@ -9,7 +9,6 @@ const razorpay = new Razorpay({
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
-    // Handle CORS preflight
     res.setHeader("Access-Control-Allow-Credentials", true);
     res.setHeader("Access-Control-Allow-Origin", "https://biteschocolatedelights.netlify.app");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
