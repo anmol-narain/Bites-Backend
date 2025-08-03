@@ -1,6 +1,17 @@
 const Razorpay = require("razorpay");
 
 module.exports = async (req, res) => {
+  // ✅ Enable CORS
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Or restrict to your frontend origin
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+  res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Content-Type, Authorization");
+
+  // ✅ Handle preflight
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
@@ -14,7 +25,7 @@ module.exports = async (req, res) => {
 
   try {
     const options = {
-      amount: amount * 100, // amount in paise
+      amount: amount * 100,
       currency: currency || "INR",
       receipt: receipt || "receipt_order_123",
     };
@@ -24,4 +35,4 @@ module.exports = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}
