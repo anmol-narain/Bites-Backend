@@ -1,9 +1,21 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.js", "use": "@vercel/node" }
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "index.js" }
+    {
+      "src": "/api/createOrder",
+      "methods": ["POST", "OPTIONS"],
+      "dest": "index.js"
+    },
+    {
+      "src": "/",
+      "methods": ["GET"],
+      "dest": "index.js"
+    }
   ]
 }
