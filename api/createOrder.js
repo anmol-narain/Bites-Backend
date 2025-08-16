@@ -10,7 +10,10 @@ const razorpay = new Razorpay({
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Credentials", true);
-    res.setHeader("Access-Control-Allow-Origin", "https://biteschocolatedelights.netlify.app");
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://biteschocolatedelights.netlify.app"
+    );
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
@@ -20,14 +23,19 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  res.setHeader("Access-Control-Allow-Origin", "https://biteschocolatedelights.netlify.app");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://biteschocolatedelights.netlify.app"
+  );
   res.setHeader("Access-Control-Allow-Credentials", true);
 
   try {
-    const { amount, currency, receipt } = req.body;
+    // Ensure body parsing (Vercel sometimes requires manual parsing)
+    const { amount, currency = "INR", receipt = "receipt#1" } =
+      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
     const order = await razorpay.orders.create({
-      amount,
+      amount, // amount in paise
       currency,
       receipt,
     });
